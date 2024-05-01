@@ -14,7 +14,9 @@ import { Router } from '@angular/router';
 export class WeatherListComponent {
   searchText: string = '';
   filteredWeatherList: any[];
-   weatherList: any[] = [
+  sortBy: string ='';
+  sortAscending : boolean = false;
+  weatherList: any[] = [
     { city: 'Cairo', temperature: 20 },
     { city: 'Giza', temperature: 25 },
     { city: 'Alexandria', temperature: 9 },
@@ -27,15 +29,39 @@ export class WeatherListComponent {
     this.filteredWeatherList = this.weatherList;
   }
 
-  navigateToWeather(temperature: number){
-    this.router.navigate(['/weather'], { queryParams: { temperature } });
+navigateToWeather(city: string, temperature: number ) {
+    this.router.navigate(['/weather'], { queryParams: { city, temperature } });
   }
 
-  sortWeatherList(arg0: string) {
-  throw new Error('Method not implemented.');
-  }
-  searchWeatherList() {
-  throw new Error('Method not implemented.');
+    searchWeatherList() {
+      if (!this.searchText) {
+        this.filteredWeatherList = this.weatherList;
+      } else {
+        this.filteredWeatherList = this.weatherList.filter((cityWeather) => {
+          return cityWeather.city
+            .toLowerCase()
+            .includes(this.searchText.toLowerCase());
+
+        });
+        // console.log(this.filteredWeatherList)
+      }
+    }
+
+
+  sortWeatherList(property:string) {
+    this.sortBy=property;
+    this.sortAscending = !this.sortAscending;
+    this.filteredWeatherList.sort((a,b)=>{
+      const avalue=a[property];
+      const bvalue=b[property];
+      if(avalue>bvalue){
+        return this.sortAscending? 1 : -1;
+      }
+      else if(avalue<bvalue){
+        return this.sortAscending? -1 : 1;
+      }
+      return 0;
+    })
   }
 
 

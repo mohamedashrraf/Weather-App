@@ -17,19 +17,25 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class WeatherComponent {
   temp: number = 0;
-  unit:string = 'C';
+  unit: string = 'C';
+  weatherCity: string = '';
 
-    constructor(private route:ActivatedRoute){
-      this.route.queryParams.subscribe(params=>{
+  constructor(private route: ActivatedRoute) { }
+
+  ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
       const temperatureParam = params['temperature'];
-      if(temperatureParam)
-      {
+      const cityParam = params['city'];
+      if (cityParam) {
+        this.weatherCity = cityParam;
+      }
+      if (temperatureParam) {
         this.temp = +temperatureParam;
       }
-      })
+    });
   }
-  toggleUnit() {
 
+  toggleUnit() {
   this.unit = this.unit === 'C'? 'F' : 'C';
   }
 

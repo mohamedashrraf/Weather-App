@@ -6,7 +6,7 @@ import { Directive, ElementRef, Input } from '@angular/core';
 })
 export class TemperatureColorDirective {
 
-@Input('appTemperatureColor') temp : number =0;
+@Input('appTemperatureColor') temp : number = 0;
 
   constructor(private el:ElementRef) {}
 
@@ -15,7 +15,7 @@ export class TemperatureColorDirective {
 
   }
 
-  setColor(){
+  private setColor(){
     if(this.temp <= 10){
       this.el.nativeElement.style.backgroundColor = 'blue';
     }
